@@ -21,3 +21,5 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+#"dev": "concurrently \"npm run server\" \"npm run client\"",

@@ -1,0 +1,85 @@
+
+.white_card_pr{
+    position: relative;
+    min-width: 150px;
+    min-height:180px;
+    background-color: #fff;
+    display: flex; 
+    align-items: center;
+}
+
+.white_card_pr .cont_img{
+  max-width: 100px;
+  max-height: 100px;
+  display: flex;
+  align-items: center;
+}
+
+.white_card_pr img{
+  max-width: 50%;
+  max-height: 50%;
+}
+
+.navigation ul {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px;
+    height: 300px; 
+    overflow-y: scroll;
+    border: 0.5px dashed rgb(255, 136, 0);
+}
+ 
+.navigation li {
+    background-color: rgb(251, 255, 0);
+    padding: 30px;
+    width: 100%;
+    color: black;
+}
+
+.navigation li:hover {
+    background-color: rgb(255, 136, 0);
+    color: #fff;
+    transform: scale(0.95);
+}
+
+.navigation .li_hover {
+    background-color: rgb(255, 136, 0);
+    color: #fff;
+}
+
+
+.add_cart {
+    position: absolute;
+    z-index: 1;
+    background-color: rgb(235, 235, 235);
+    opacity: 0.5;
+    width: 100%;
+    height: 100%; 
+    display: none;
+}
+
+.white_card_pr button{
+   position: absolute;
+   top: 70px;
+   left: 17px;
+   width: 80%;
+   z-index: 2;
+   padding: 5px;
+   border: 0;
+   font-size: 12px;
+   font-style: italic;
+   font-weight: bold;
+   font-family: 'lora';
+   background-color: rgb(75, 102, 255);
+   color: #fff;
+   display: none;  
+}
+
+  .white_card_pr:hover > .add_cart  {
+      display: block;
+  }
+
+  .white_card_pr:hover >  button {
+    display: block;
+  }

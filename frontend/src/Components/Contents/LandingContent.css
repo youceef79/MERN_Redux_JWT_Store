@@ -1,0 +1,11 @@
+.white_card{
+    max-width: 300px;
+    max-height: 250px;
+    background-color: #fff;
+}
+
+.white_card img{
+  max-width: 70%;
+  max-height: 90%;
+  top: 1em;
+}

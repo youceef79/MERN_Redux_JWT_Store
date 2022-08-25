@@ -1,0 +1,230 @@
+@import url('https://fonts.googleapis.com/css?family=Lora;Roboto');
+
+#main {
+   font-family: 'Lora';
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-style: italic;
+}
+
+p, button {
+  font-family: 'Roboto';
+}
+
+img {
+  position: absolute;   
+}
+
+.navbar {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    flex-wrap: wrap;
+}
+
+header{
+  position: relative;
+  display: flex;
+  margin-top: 3em;
+  color: #fff;
+}
+
+.header_pagin img{
+  position: relative;
+  width: 20px;
+  height: 10px;
+}
+
+.header_pagin {
+  text-align: center;
+  margin-top: 1.5em;
+  margin-bottom: 1.3em;
+}
+
+/*
+@media only screen and (max-width: 500px) {
+  header, .header_pagin {
+    position: absolute;
+    display: none;
+  }
+}*/
+
+.navbar img{ 
+   width: 80px;
+   position: relative;
+}
+
+.navbar ul {
+    display: flex;
+    margin-top: 1.5em;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+li{
+    display: inline-block;
+    list-style-type: none;
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+    line-height: 10px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+li.brd{
+    border-right: orange solid 1px;
+}
+
+.main-section {
+    width: 80%;
+}
+
+.skewed {
+  background-color: transparent;
+  border: rgb(235, 196, 24) solid 1px;
+  color: rgb(212, 224, 45);
+  padding: 5px 20px;
+  margin-top: 1em;
+  margin-left: 2em;
+  transform: skewX(-25deg);
+}
+
+.skewed-input {
+  background-color: transparent;
+  border: #fff solid 1px;
+  border-right: 0; 
+  color: rgb(212, 224, 45);
+  padding: 5px 20px;
+  transform: skewX(-25deg);
+}
+
+.skewed-button-info {
+  background-color: transparent;
+  border: rgb(235, 196, 24) solid 1px;
+  color: rgb(212, 224, 45);
+  padding: 5px 20px;
+  transform: skewX(-25deg);
+}
+
+.skewed span, .skewed-button-info span, .skewed-input::placeholder{
+    display: block;
+    transform: skewX(25deg);
+}
+
+.header_text h1{  
+    font-size: 3.5em;
+    width: 500px;
+  }
+
+.header_text p{
+  position: relative;
+  color: #fff;
+  padding-right: 5em;
+  font-size: 0.8rem;
+}
+
+
+.header_images{
+    margin-left: -4em;
+}
+
+.header_images .shade{
+    opacity: 0.3;
+}
+
+.header_images .cycle img{
+    position: relative;
+}
+
+.header_images .shade{
+    position: absolute;
+    top: 0;
+    margin-left: 1em;
+}
+
+.card .rect{
+  width: 100%;
+  height: 100%;
+}
+
+.card{
+    max-height: 150px;
+    max-width: 350px;
+    height: 150px;
+    border: 0;
+    overflow: hidden;
+}
+
+.card .inner_text {
+    position: absolute;
+    color: #fff;
+    height: 100%;
+    padding: 1em 1.5em 1.5em;
+}
+
+.card .inner_text p{
+  font-size: 10px;
+  margin-bottom: 5px;
+}
+
+.card .inner_text button{
+  color: rgb(255, 217, 0);
+  border: 0;
+  font-size: 15px;
+  background-color: transparent;
+}
+
+.card .inner_text button::after{
+  content: '\25B7';
+  margin-left: 2px;
+  font-size: 12px;
+}
+
+.inner_text3, .inner_text4{
+   color: #000;
+}
+
+.inner_img1 {
+  width: 100%;
+  height: 100%;  
+}
+
+.inner_img2 {
+    width: 70%;
+    height: 90%; 
+    right: -4em;
+    top: 1em; 
+  }
+
+  .inner_img3 {
+    width: 45%;
+    height: 100%; 
+    right: 1em;
+  }
+
+  .inner_img4 {
+    width: 50%;
+    height: 90%;
+    top: 2em;  
+    right: 0.9em;
+  }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+.white_card{
+    max-width: 300px;
+    max-height: 250px;
+    background-color: #fff;
+}
+
+.white_card img{
+  max-width: 70%;
+  max-height: 90%;
+  top: 1em;
+}
