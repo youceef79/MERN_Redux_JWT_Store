@@ -4,6 +4,8 @@ import cartService from './cartService'
 const initialState = {
   cart_items: [],
   item: {},
+  isLoading: false,
+  delIsLoading: false,
 };
 
  export const getCartItems = createAsyncThunk(
@@ -50,15 +52,15 @@ export const cartSlice = createSlice({
         state.message = action.payload
       })
       .addCase(removeItemFromCart.pending, (state) => {
-        state.isLoading = true
+        state.delIsLoading = true
       })
       .addCase(removeItemFromCart.fulfilled, (state, action) => {
-        state.isLoading = false
+        state.delIsLoading = false
         let new_items = state.cart_items.filter((c) => c._id != action.payload)
         state.cart_items = new_items 
       })
       .addCase(removeItemFromCart.rejected, (state, action) => {
-        state.isLoading = true
+        state.delIsLoading = true
         state.error = true
         state.message = action.payload
       })

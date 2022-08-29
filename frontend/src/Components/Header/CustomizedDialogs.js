@@ -12,6 +12,7 @@ import Col from 'react-bootstrap/Col'
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import CircularProgress from '@mui/material/CircularProgress';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
 import { useSelector, useDispatch } from 'react-redux'
@@ -64,7 +65,7 @@ export default function CustomizedDialogs({ open, handleClose }) {
 
   const dispatch = useDispatch()
 
-  const { cart_items } = useSelector(
+  const { cart_items, delIsLoading } = useSelector(
     (state) => state.cart
   )
 
@@ -91,9 +92,14 @@ export default function CustomizedDialogs({ open, handleClose }) {
         </BootstrapDialogTitle>
         <DialogContent dividers>
           <Container  style={{ overflow: "scrollY", maxHeight: "300px"}}>
+          {  delIsLoading && 
+             <div style={{ width: "100%", height: "100%", zIndex: "10"}} className="bg-white d-flex position-relative justify-content-center align-items-center">
+             <CircularProgress className="position-relative d-flex" color="primary" style={{ width: '20%', height: '20%'}} /> 
+             </div> 
+           }
            { cart_items?.length == 0 ?  
-            <img style={{width: "50%", height: "50%"}} className="position-relative center d-flex" src="sport_images/empty_cart.png" /> 
-             : cart_items.map((item, index) => ( 
+            <img style={{width: "40%", height: "40%"}} className="position-relative center d-flex" src="sport_images/empty_cart.png" /> 
+             :  !delIsLoading && cart_items.map((item, index) => ( 
             <>
             <Row md={12} className="py-2 text-center m-auto">
             <Col md={3}>
@@ -122,7 +128,7 @@ export default function CustomizedDialogs({ open, handleClose }) {
              </Col>
           </Row>
           { cart_items?.length > 1 && index != cart_items?.length-1  ? <hr/> : "" }
-          </> ))
+          </> )) 
           }
          </Container>
         </DialogContent>

@@ -6,6 +6,7 @@ import Container from 'react-bootstrap/Container';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom'
 import Products from './Components/Contents/Products';
 import Footer from './Components/Footer/Footer';
+import { useEffect } from 'react'
 import { NotificationContainer } from 'react-notifications';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,13 +15,16 @@ export default function App (){
 
   const location = useLocation();
 
-  console.log(location.pathname);
+
+   useEffect(() => {
+      document.getElementById("content").classList.add("no-scroll")
+    }, []);
 
   return (
       <div id="main" className={location.pathname === "/" ? 'App_landing' : 'App'}>
       <img className={location.pathname === "/" ? 'd-none' : 'd-block back'} src="sport_images/main_layout4.png" alt=""/> 
       <ToastContainer position="top-right"/>
-      <Container className="content">
+      <Container id="content" className="content">
       <Nav />
         <Routes>
           <Route path='/' element={<Landing />} />

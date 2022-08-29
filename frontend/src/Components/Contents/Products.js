@@ -40,16 +40,18 @@ function Products() {
    const [catclicked, setCatclicked] = React.useState(null);
    const [spinclicked, setSpinclicked] = React.useState(-1);
    const [loading, setLoading] = React.useState(false);
+   const [lists, setLists] = React.useState([]);
    const timer = React.useRef();
-   const items = () => {
+   const allItems = () => {
         return catclicked == null ? product_items : product_items_by_cat; 
   }
+  const MAX_ITEMS = 8
+  const paginationCount = Math.ceil(allItems().length / MAX_ITEMS)
 
    React.useEffect(() => {
        dispatch(getAllProducts())
        dispatch(getAllCategories())
     }, []);
-
 
 
    React.useEffect(() => {
@@ -64,8 +66,10 @@ function Products() {
    };
 
    const categoryClick = (i, c) => {
-         setCatclicked(i)   
-         dispatch(getProductsByCat(c._id))            
+         setCatclicked(i)
+         if(c)   
+         dispatch(getProductsByCat(c._id))
+         setPage(1)   
    }
 
    const addCart = (p) => {
@@ -91,10 +95,13 @@ function Products() {
               {  isLoading && 
              <CircularProgress className="d-flex" color="primary" style={{ width: '20%', height: '20%'}} />  
               }
-              { !isLoading && categories.map((c, i) => (
-                 <li className={catclicked === i  ? 'li_hover' : ''} 
-                onClick={() => categoryClick(i, c)}>{c.name}</li>
-                )) }
+             { !isLoading && <li className={catclicked === null  ? 'li_hover' : ''} 
+                onClick={() => categoryClick(null, null)}>All</li> }  
+               { categories.map((c, i) => (
+                 <li className={catclicked === i+1  ? 'li_hover' : ''} 
+                onClick={() => categoryClick(i+1, c)}>{c.name}</li>
+                ))
+              }
             </ul>
         </Col>
         <Col xs={9}>
@@ -102,8 +109,9 @@ function Products() {
              <CircularProgress className="d-flex" color="primary" style={{ width: '20%', height: '20%'}} />  
            }
          { !isLoading && <Grid container spacing={5}>
-        {  items().map((p) => (
-          <Grid item xs={3}>
+        {  allItems()?.map((p, index) => {
+            if(index >= (page-1)*MAX_ITEMS && index<page*MAX_ITEMS)
+          return ( <Grid item xs={3}>
          <div className='white_card_pr'>
          <button onClick={() => addCart(p)}> <ShoppingCartIcon /> Add to cart </button>
          <div className='add_cart'>
@@ -117,11 +125,12 @@ function Products() {
            </div>
         </div>
          </Grid>
-        ))}
+        )}
+       )}
       </Grid> }
        {  !isLoading && 
-        <div className='justify-content-center w-50 bg-light mt-md-5 mt-0 py-3'>
-        <Pagination color="primary" size="small" count={5} page={page} onChange={handleChange} />
+        <div className='justify-content-center w-50 bg-light mt-md-5 mt-0 py-2 px-0'>
+        <Pagination color="secondary" size="small" count={paginationCount} page={page} onChange={handleChange} />
         </div>
         }
         </Col>
