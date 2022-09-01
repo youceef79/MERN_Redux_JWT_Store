@@ -40,13 +40,10 @@ function Products() {
    const [catclicked, setCatclicked] = React.useState(null);
    const [spinclicked, setSpinclicked] = React.useState(-1);
    const [loading, setLoading] = React.useState(false);
-   const [lists, setLists] = React.useState([]);
    const timer = React.useRef();
-   const allItems = () => {
-        return catclicked == null ? product_items : product_items_by_cat; 
-  }
-  const MAX_ITEMS = 8
-  const paginationCount = Math.ceil(allItems().length / MAX_ITEMS)
+   const allItems = catclicked == null ? product_items : product_items_by_cat
+   const MAX_ITEMS = 8
+   const paginationCount = Math.ceil(allItems.length / MAX_ITEMS)
 
    React.useEffect(() => {
        dispatch(getAllProducts())
@@ -79,12 +76,19 @@ function Products() {
            setSpinclicked(null)
          }, 5000);
        }*/
+    
+      let inCart = cart_items.filter((it) => it.product._id == p._id)
+      console.log("inCart : "+ inCart)
+      if(inCart.length == 0){
        let item = {
            product: p._id,
-           quantity: "25"
+           quantity: "1"
        }
       dispatch(addToCart({ item }))
-      toast.success('item added to cart !', 'Successful!', 2000);
+      toast.success('item added to cart !', 'Successful!', 500); 
+      } else {
+      toast.warn('item already in cart !', 'Warnning!', 500); 
+      }
    }
 
   return (
@@ -109,7 +113,7 @@ function Products() {
              <CircularProgress className="d-flex" color="primary" style={{ width: '20%', height: '20%'}} />  
            }
          { !isLoading && <Grid container spacing={5}>
-        {  allItems()?.map((p, index) => {
+        {  allItems?.map((p, index) => {
             if(index >= (page-1)*MAX_ITEMS && index<page*MAX_ITEMS)
           return ( <Grid item xs={3}>
          <div className='white_card_pr'>

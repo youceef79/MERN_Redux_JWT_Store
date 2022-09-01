@@ -15,8 +15,9 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import CircularProgress from '@mui/material/CircularProgress';
 import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
-import { useSelector, useDispatch } from 'react-redux'
-import { getCartItems, removeItemFromCart } from '../../reducers/cartReducer'
+import { useSelector, useDispatch, batch } from 'react-redux'
+import { useEffect } from 'react'
+import { getCartItems, removeItemFromCart, updateCart } from '../../reducers/cartReducer'
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -65,18 +66,47 @@ export default function CustomizedDialogs({ open, handleClose }) {
 
   const dispatch = useDispatch()
 
-  const { cart_items, delIsLoading } = useSelector(
+  const { cart_items, upIsLoading, delIsLoading,  } = useSelector(
     (state) => state.cart
   )
+  const [quantities, setQuantities] = React.useState({})
+
+  const [state, updateState] = React.useState()
+
+  const actionIsLoading = upIsLoading || delIsLoading
+
+  
+    React.useEffect(() => {
+
+    dispatch(getCartItems())
+    
+    }, []);
+
+
+  React.useEffect(() => {
+       return () => {
+         setQuantities({})   
+       }
+    }, []);
+
 
   const removeItem = (id) => {
       dispatch(removeItemFromCart(id))
   }
 
-  React.useEffect(() => {
-       dispatch(getCartItems())
-    }, [cart_items]);
-  
+  const updateItem = (id) => {
+       let name = "item"+id
+       dispatch(updateCart({
+           id: id,
+           quantity: quantities[name]
+       }))
+  }
+
+  const updateQuantities = async (e) => {
+       let { name, value } = e.target
+       name = "item"+name 
+       setQuantities((prev) => ({ ...prev, [name]: parseInt(value) }) )
+  }
   
   return (
     <div>
@@ -88,18 +118,18 @@ export default function CustomizedDialogs({ open, handleClose }) {
         open={open}
       >
         <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-           Cart
+           Cart {quantities["item630cf5abb36087032c789d06"]}
         </BootstrapDialogTitle>
         <DialogContent dividers>
           <Container  style={{ overflow: "scrollY", maxHeight: "300px"}}>
-          {  delIsLoading && 
+          {  actionIsLoading && 
              <div style={{ width: "100%", height: "100%", zIndex: "10"}} className="bg-white d-flex position-relative justify-content-center align-items-center">
              <CircularProgress className="position-relative d-flex" color="primary" style={{ width: '20%', height: '20%'}} /> 
              </div> 
            }
            { cart_items?.length == 0 ?  
             <img style={{width: "40%", height: "40%"}} className="position-relative center d-flex" src="sport_images/empty_cart.png" /> 
-             :  !delIsLoading && cart_items.map((item, index) => ( 
+             : !actionIsLoading && cart_items?.map((item, index) => ( 
             <>
             <Row md={12} className="py-2 text-center m-auto">
             <Col md={3}>
@@ -114,17 +144,19 @@ export default function CustomizedDialogs({ open, handleClose }) {
             <Col md={2} className="m-auto">
             <TextField
           style={{ width: '50%'}}
-          defaultValue={item.quantity}  
+          name={item._id}
+          onChange={(e) => updateQuantities(e)}
+          defaultValue={item.quantity} 
           InputProps={{ inputProps: { min: 0} }}
           type="number"
           InputLabelProps={{
             shrink: true,
           }}
           variant="standard"
-        />             
+             />             
            </Col>
              <Col md={2} className="m-auto d-flex">
-             <IconButton> <RefreshIcon /> </IconButton> <IconButton>  <DeleteIcon onClick={() => removeItem(item._id)} style={{color: "red",}} /> </IconButton> 
+             <IconButton onClick={() => updateItem(item._id)}> <RefreshIcon /> </IconButton> <IconButton onClick={() => removeItem(item._id)}>  <DeleteIcon style={{color: "red",}} /> </IconButton> 
              </Col>
           </Row>
           { cart_items?.length > 1 && index != cart_items?.length-1  ? <hr/> : "" }

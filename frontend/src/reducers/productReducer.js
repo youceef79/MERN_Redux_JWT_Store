@@ -36,7 +36,6 @@ export const productSlice = createSlice({
           (p) => p.categorie == action.payload
         )
         state.loading = false 
-        console.log(state.product_items_by_cat)
         return state
     } 
   },

@@ -38,15 +38,12 @@ const addToCart = asyncHandler(async (req, res) => {
  
   const c = await Cart.findOne({ type: "Guest" })
 
-  console.log("item : "+req.body.item)
-
-  const updatedCat = await Cart.findByIdAndUpdate(c._id, {  $push: {
+  const updatedCat = await Cart.findOneAndUpdate(c._id, {  $push: {
             cart: {$each: [req.body.item]}
-        } }) 
+        } },  { returnOriginal: false }).populate('cart.product')
 
-   res.status(200).json(updatedCat)  
-  
-    });
+      res.status(200).json(updatedCat.cart)
+  });
 
 
 
@@ -67,28 +64,24 @@ const removeCart = asyncHandler(async (req, res) => {
 })
 
 
+const updateCart = asyncHandler(async (req, res) => {
+
+ const up = await Cart.update( {  type: "Guest" } ,{ $set: { "cart.$[elem].quantity" : req.body.quantity } }, {
+     multi: false,
+     arrayFilters: [ { "elem._id": req.params.id } ]
+   })
+    
+  res.status(200).json({ id: req.params.id, quantity: req.body.quantity })
+
+})
+
+
+
 const removeProductFromCart = asyncHandler(async (req, res) => {
  
- const c = await Cart.findOne({ type: "Guest" })
-
-  console.log("id :" + req.params.id)
-
   const up = await Cart.update({ type: "Guest" } , { $pull: { "cart": { _id: req.params.id } }}) 
   
-  res.status(200).json(it.product)
-
-  /*
-  c.cart.forEach(async (it) => 
-         {
-             if(it.product == req.params.id){
-              console.log(it)
-              var up = await Cart.update({ type: "Guest" } , { $pull: { "cart": { _id: it._id } }}) 
-              console.log(up)
-              res.status(200).json(it.product)
-             } 
-          } 
-      )
-      */
+  res.status(200).json({id: req.params.id})
 
 })
 
@@ -98,5 +91,6 @@ module.exports = {
   initCart,
   removeCart,
   removeProductFromCart,
-  addToCart
+  addToCart,
+  updateCart
 }

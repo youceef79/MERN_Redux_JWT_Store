@@ -27,10 +27,19 @@ const removeItemFromCart = async (id) => {
 
 }
 
+const updateCart = async (payload) => {
+
+  const response = await axios.put(API_URL+ "/" + payload.id, {quantity: payload.quantity})
+
+  return response.data
+
+}
+
 const cartService = {
   getCartItems,
   removeItemFromCart,
-  addToCart
+  addToCart,
+  updateCart
 }
 
 export default cartService

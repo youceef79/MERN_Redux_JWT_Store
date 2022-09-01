@@ -21,11 +21,13 @@ function Nav() {
     (state) => state.cart
   )
 
-  let cart_count = cart_items?.length
+  const [cartcount, setCartcount] = useState(0)
 
   useEffect(() => {
-
-    cart_count = cart_items?.length
+ 
+   setCartcount((prev) => {
+       return cart_items?.length
+    })
 
   }, [cart_items])
 
@@ -86,7 +88,7 @@ function Nav() {
            <Link className='d-none d-sm-none d-md-block text-decoration-none ' to='/'><li className='brd d-none d-sm-none d-md-block'>HOME</li> </Link>
             <li className='brd d-none d-sm-none d-md-block'>COMPANY</li>
             <li className='brd d-none d-sm-none d-md-block'>SPORTS STARS</li>
-            <Link className='d-none d-sm-none d-md-block' to='/products'> <li> PRODUCTS</li></Link>
+            <Link className='d-none d-sm-none d-md-block' to='/products'> <li> PRODUCTS </li></Link>
             <CustomizedDialogs open={openDialog} handleClose={handleCloseDialog} />
             <li 
         id="basic-button"
@@ -95,8 +97,8 @@ function Nav() {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
          className='d-xs-block d-sm-block d-md-none'> <MenuIcon /></li>
-            <li onClick={handleOpenDialog}> <Badge color="primary" badgeContent={cart_count}>
-             { openDialog === true ? <ShoppingCartIcon /> : <ShoppingCartOutlinedIcon /> } {" "} 
+            <li onClick={handleOpenDialog}> <Badge color="primary" badgeContent={cartcount}>
+             { cartcount > 0 ? <ShoppingCartIcon /> : <ShoppingCartOutlinedIcon /> }
         </Badge>
         </li>
           </ul>

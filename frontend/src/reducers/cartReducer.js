@@ -6,6 +6,7 @@ const initialState = {
   item: {},
   isLoading: false,
   delIsLoading: false,
+  upIsLoading: false,
 };
 
  export const getCartItems = createAsyncThunk(
@@ -27,6 +28,13 @@ const initialState = {
   'cart/addToCart',
   async (item) => {
       return await cartService.addToCart(item)
+  }
+)
+
+ export const updateCart = createAsyncThunk(
+  'cart/updateCart',
+  async (payload) => {
+      return await cartService.updateCart(payload)
   }
 )
 
@@ -56,8 +64,7 @@ export const cartSlice = createSlice({
       })
       .addCase(removeItemFromCart.fulfilled, (state, action) => {
         state.delIsLoading = false
-        let new_items = state.cart_items.filter((c) => c._id != action.payload)
-        state.cart_items = new_items 
+        state.cart_items = state.cart_items.filter((c) => c._id !== action.payload.id)
       })
       .addCase(removeItemFromCart.rejected, (state, action) => {
         state.delIsLoading = true
@@ -67,11 +74,31 @@ export const cartSlice = createSlice({
       .addCase(addToCart.pending, (state) => {
         state.isLoading = true
       })
-      .addCase(addToCart.fulfilled, (state) => {
+      .addCase(addToCart.fulfilled, (state, action) => {
         state.isLoading = false
+        state.cart_items = action.payload
       })
       .addCase(addToCart.rejected, (state, action) => {
         state.isLoading = true
+        state.error = true
+        state.message = action.payload
+      })
+      .addCase(updateCart.pending, (state) => {
+        state.upIsLoading = true
+      })
+      .addCase(updateCart.fulfilled, (state, action) => {
+        state.upIsLoading = false
+        let new_items = state.cart_items.map((it) => {
+           
+            if( it._id == action.payload.id )
+            it.quantity = action.payload.quantity
+
+            return it 
+        })
+         state.cart_items = new_items
+      })
+      .addCase(updateCart.rejected, (state, action) => {
+        state.upIsLoading = true
         state.error = true
         state.message = action.payload
       })

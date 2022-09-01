@@ -5,13 +5,14 @@ const {
   initCart,
   removeCart,
   removeProductFromCart,
-  addToCart
+  addToCart,
+  updateCart,
 } = require('../controllers/cartController')
 
 
 //const { protect } = require('../middleware/authMiddleware')
 
 router.route('/').get(getCart).post(addToCart)
-router.route('/:id').delete(removeProductFromCart)
+router.route('/:id').delete(removeProductFromCart).put(updateCart)
 
 module.exports = router
