@@ -17,18 +17,20 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import TextField from '@mui/material/TextField';
 import { useSelector, useDispatch, batch } from 'react-redux'
 import { useEffect } from 'react'
-import { getCartItems, removeItemFromCart, updateCart } from '../../reducers/cartReducer'
+import { getCartItems, removeItemFromCart, updateCart } from '../../reducers/cartSlice'
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogTitle-root': {
-    background: "#00",
+    background: "#414141",
   },
   '& .MuiDialogContent-root': {
     padding: theme.spacing(2),
+    background: "#d2d8d2"
   },
   '& .MuiDialogActions-root': {
     padding: theme.spacing(1),
+    background: "#414141"
   },
 }));
 
@@ -69,6 +71,11 @@ export default function CustomizedDialogs({ open, handleClose }) {
   const { cart_items, upIsLoading, delIsLoading,  } = useSelector(
     (state) => state.cart
   )
+
+   const { user } = useSelector(
+    (state) => state.auth
+  )
+
   const [quantities, setQuantities] = React.useState({})
 
   const [state, updateState] = React.useState()
@@ -76,7 +83,7 @@ export default function CustomizedDialogs({ open, handleClose }) {
   const actionIsLoading = upIsLoading || delIsLoading
 
   
-    React.useEffect(() => {
+   React.useEffect(() => {
 
     dispatch(getCartItems())
     
@@ -100,6 +107,7 @@ export default function CustomizedDialogs({ open, handleClose }) {
            id: id,
            quantity: quantities[name]
        }))
+       console.log('quant : '+ quantities[name]) 
   }
 
   const updateQuantities = async (e) => {
@@ -117,31 +125,31 @@ export default function CustomizedDialogs({ open, handleClose }) {
         aria-labelledby="customized-dialog-title"
         open={open}
       >
-        <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-           Cart {quantities["item630cf5abb36087032c789d06"]}
+        <BootstrapDialogTitle className="text-white" id="customized-dialog-title" onClose={handleClose}>
+           Cart { user ? "User" : "Guest"}
         </BootstrapDialogTitle>
         <DialogContent dividers>
           <Container  style={{ overflow: "scrollY", maxHeight: "300px"}}>
           {  actionIsLoading && 
-             <div style={{ width: "100%", height: "100%", zIndex: "10"}} className="bg-white d-flex position-relative justify-content-center align-items-center">
-             <CircularProgress className="position-relative d-flex" color="primary" style={{ width: '20%', height: '20%'}} /> 
+             <div style={{ width: "100%", minHeight: "100%", zIndex: "10", background: "#d2d8d2"}} className="d-flex position-relative justify-content-center align-items-center">
+             <CircularProgress className="position-relative" color="primary" style={{ width: '15%', height: '15%'}} /> 
              </div> 
            }
            { cart_items?.length == 0 ?  
             <img style={{width: "40%", height: "40%"}} className="position-relative center d-flex" src="sport_images/empty_cart.png" /> 
              : !actionIsLoading && cart_items?.map((item, index) => ( 
             <>
-            <Row md={12} className="py-2 text-center m-auto">
-            <Col md={3}>
-            <img style={{ maxWidth: "100px", maxHeight: "100px" }} className='position-relative' src={`sport_images/${item.product.image}`} alt="logo"/>
+            <Row md={12} className="py-2 text-center mx-0">
+            <Col md={3} sm={3} xs={3}>
+            <img style={{ maxWidth: "80px", maxHeight: "80px" }} className='position-relative' src={`sport_images/${item.product.image}`} alt="logo"/>
             </Col>
-            <Col md={3} className="m-auto">
+            <Col md={3} sm={3} xs={3} className="m-auto">
                 {item.product.desc}
             </Col>
-            <Col md={2} className="m-auto">
+            <Col md={2} sm={1} xs={1} className="m-auto">
                 {item.product.price}$
             </Col>
-            <Col md={2} className="m-auto">
+            <Col md={2} sm={4} xs={4} className="m-auto">
             <TextField
           style={{ width: '50%'}}
           name={item._id}
@@ -155,7 +163,7 @@ export default function CustomizedDialogs({ open, handleClose }) {
           variant="standard"
              />             
            </Col>
-             <Col md={2} className="m-auto d-flex">
+             <Col md={2} sm={1} xs={1} className="m-auto d-flex">
              <IconButton onClick={() => updateItem(item._id)}> <RefreshIcon /> </IconButton> <IconButton onClick={() => removeItem(item._id)}>  <DeleteIcon style={{color: "red",}} /> </IconButton> 
              </Col>
           </Row>
@@ -164,9 +172,9 @@ export default function CustomizedDialogs({ open, handleClose }) {
           }
          </Container>
         </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Save changes
+        <DialogActions className="w-100 d-flex justify-content-center">
+          <Button className="text-white" onClick={handleClose}>
+            Purchase
           </Button>
         </DialogActions>
       </BootstrapDialog>

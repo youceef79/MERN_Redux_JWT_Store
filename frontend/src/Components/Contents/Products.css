@@ -2,17 +2,10 @@
 .white_card_pr{
     position: relative;
     min-width: 150px;
-    min-height:180px;
+    min-height:180px;;
     background-color: #fff;
     display: flex; 
     align-items: center;
-}
-
-.white_card_pr .cont_img{
-  max-width: 100px;
-  max-height: 100px;
-  display: flex;
-  align-items: center;
 }
 
 .white_card_pr img{
@@ -29,11 +22,22 @@
     overflow-y: scroll;
     border: 0.5px dashed rgb(255, 136, 0);
 }
+
+.scroll {
+    overflow: scroll;
+    height: 80vh; 
+    padding-bottom: 100px;
+}
  
 .navigation li {
     background-color: rgb(251, 255, 0);
-    padding: 30px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 30px;
     width: 100%;
+    height: 100%;
     color: black;
 }
 
@@ -72,6 +76,7 @@
    font-weight: bold;
    font-family: 'lora';
    background-color: rgb(75, 102, 255);
+   min-width: 20px;
    color: #fff;
    display: none;  
 }

@@ -6,8 +6,6 @@ const {
 } = require('../controllers/productController')
 
 
-//const { protect } = require('../middleware/authMiddleware')
-
 router.get('/products', getProducts)
 router.get('/categories', getCategories)
 

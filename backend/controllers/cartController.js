@@ -2,16 +2,31 @@ const asyncHandler = require('express-async-handler')
 
 const Product = require('../models/productModel')
 const Cart = require('../models/cartModel')
-
+const User = require('../models/userModel')
 
 const getCart = asyncHandler(async (req, res) => {
- 
- const cartPromise = await Cart.findOne({ type : { $eq : "Guest" } }).populate('cart.product')
+
+ let cartPromise = ''
+
+ if(!req.user){
+
+  cartPromise = await Cart.findOne({ type : { $eq : "Guest" } }).populate('cart.product')
+
+  if (!cartPromise) {
+    res.status(404)
+    throw new Error('No carts found')
+  } 
+
+ } else {
+
+  cartPromise = await Cart.findOne({ type: "User", user: req.user._id }).populate('cart.product')
 
   if (!cartPromise) {
     res.status(404)
     throw new Error('No carts found')
   }
+ 
+ }
  
   res.status(200).json(cartPromise.cart)
 
@@ -31,18 +46,37 @@ const initCart = asyncHandler(async (req, res) => {
     })
     res.status(200).json(cartCreated)
   }
+
 })
 
 
-const addToCart = asyncHandler(async (req, res) => {
- 
-  const c = await Cart.findOne({ type: "Guest" })
 
-  const updatedCat = await Cart.findOneAndUpdate(c._id, {  $push: {
+const addToCart = asyncHandler(async (req, res) => {
+
+  let updatedCat = ''
+
+  if(!req.user){
+  
+   let guestPromise = await Cart.findOne({ type: "Guest" })
+
+   updatedCat = await Cart.findOneAndUpdate(guestPromise._id, {  $push: {
             cart: {$each: [req.body.item]}
         } },  { returnOriginal: false }).populate('cart.product')
+   
+   } else {
 
-      res.status(200).json(updatedCat.cart)
+   let userPromise  = await Cart.findOne({ type: "User", user: req.user._id })
+
+
+   updatedCat = await Cart.findOneAndUpdate({ _id: userPromise._id }, {  $push: {
+            cart: {$each: [req.body.item]}
+        } },  { returnOriginal: false }).populate('cart.product')
+ 
+   }  
+
+
+   res.status(200).json(updatedCat.cart)
+  
   });
 
 
@@ -66,22 +100,42 @@ const removeCart = asyncHandler(async (req, res) => {
 
 const updateCart = asyncHandler(async (req, res) => {
 
+  if(!req.user){
+
  const up = await Cart.update( {  type: "Guest" } ,{ $set: { "cart.$[elem].quantity" : req.body.quantity } }, {
      multi: false,
      arrayFilters: [ { "elem._id": req.params.id } ]
    })
+  
+
+  } else {
     
-  res.status(200).json({ id: req.params.id, quantity: req.body.quantity })
+    const up = await Cart.update( {  type: "User", user: req.user._id } ,{ $set: { "cart.$[elem].quantity" : req.body.quantity } }, {
+     multi: false,
+     arrayFilters: [ { "elem._id": req.params.id } ]
+   })
+
+  } 
+
+   res.status(200).json({ id: req.params.id, quantity: req.body.quantity }) 
 
 })
 
 
 
 const removeProductFromCart = asyncHandler(async (req, res) => {
+
+  if(!req.user){
  
-  const up = await Cart.update({ type: "Guest" } , { $pull: { "cart": { _id: req.params.id } }}) 
+  const up = await Cart.update({ type: "Guest" } , { $pull: { "cart": { _id: req.params.id } }})  
+
+  } else {
+
+   const up = await Cart.update({ type: "User", user: req.user._id } , { $pull: { "cart": { _id: req.params.id } }})
   
-  res.status(200).json({id: req.params.id})
+  }
+
+   res.status(200).json({id: req.params.id})
 
 })
 
@@ -92,5 +146,5 @@ module.exports = {
   removeCart,
   removeProductFromCart,
   addToCart,
-  updateCart
+  updateCart,
 }
