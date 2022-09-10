@@ -72,7 +72,7 @@ function Products() {
           setSucceessLogin(true)
           setTimeout(() => {
            setSucceessLogin(false) 
-          }, 5000)
+          }, 20000)
        }
        dispatch(reset())
     }, [isLoginSuccess]);
@@ -128,7 +128,7 @@ function Products() {
              <CircularProgress className="position-relative" color="primary" style={{ width: '20%', height: '20%'}} /> 
              </div>  
            }
-         { !isLoading && <Grid container spacing={5}>
+         { !isLoading && <> <Grid container spacing={5}>
         {  allItems?.map((p, index) => {
             if(index >= (page-1)*MAX_ITEMS && index<page*MAX_ITEMS)
           return ( <Grid item md={3} xs={8} sm={6}>
@@ -147,10 +147,10 @@ function Products() {
          </Grid>
         )}
        )}
-        <div className='justify-content-center w-50 bg-light mt-5 py-2'>
-        <Pagination color="secondary" size="small" count={paginationCount} page={page} onChange={handleChange} />
-        </div>
       </Grid>
+        <div className='d-block justify-content-center w-50 bg-light mt-5 py-2'>
+        <Pagination color="secondary" size="small" count={paginationCount} page={page} onChange={handleChange} />
+        </div> </>
         }
         </Col>
         </Row> 
