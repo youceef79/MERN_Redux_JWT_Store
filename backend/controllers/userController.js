@@ -49,8 +49,6 @@ const createUser = asyncHandler(async (req, res) => {
 
 
 const userLogin = asyncHandler(async (req, res) => {
- 
- console.log("req : "+ req.body.password)
 
  const user = await User.findOne({ email : { $eq : req.body.email } })
 
