@@ -159,21 +159,3 @@ function Products() {
 }
 
  export default Products;
-
- /*
- <Row className="position-relative">
-            <ul style={{ width: "50%",}} className='d-flex justify-content-between'>
-               <li><FacebookIcon /></li>
-               <li><InstagramIcon />  </li>
-               <li> <TwitterIcon /></li>
-               <li> <YouTubeIcon /> </li>
-            </ul>
-        </Row>
-        <Container style={{ fontSize : '1.3vw'}} className='position-relative text-center text-white'>
-           <Row>
-           <Col>
-             <span> &copy; Sport Life 2022 </span> 
-          </Col>
-           </Row>
-        </Container> 
-*/
