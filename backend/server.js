@@ -14,7 +14,9 @@ connectDB();
 
 const app = express();
 
+// if using a cors detection, uncomment the following 
 
+/*
 const whitelist = ["http://localhost:3000"]
 
 const corsOptions = {
@@ -37,7 +39,9 @@ const corsOptions = {
 
 }
 
-app.use(cors(corsOptions))
+app.use(cors(corsOptions)) 
+
+*/
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
