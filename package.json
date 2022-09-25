@@ -2,6 +2,7 @@
   "name": "mern-basic-store",
   "version": "1.0.0",
   "main": "server.js",
+  "author": "Rhoubir Youssef",
   "scripts": {
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
@@ -9,7 +10,9 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
   },
-  "author": "Rhoubir Youssef",
+  "engines": {
+    "node": "16.16.0"
+   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
