@@ -37,7 +37,7 @@ export default function App (){
   const location = useLocation();
 
   return (
-      <div id="main" className={location.pathname === "/" ? 'App_landing' : 'App'}>
+      <div id="main" className={location.pathname === "" ? 'App_landing' : 'App'}>
       <img className={location.pathname === "/" ? 'd-none' : 'd-block back'} src="sport_images/main_layout4.png" alt=""/> 
       <ToastContainer position="top-right"/>
       <Container id="content" className="content">
