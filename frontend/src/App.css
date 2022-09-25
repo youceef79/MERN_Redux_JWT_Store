@@ -17,7 +17,7 @@
 }
 
 .App_landing {
-  background-image: url("/public/sport_images/main_layout.png");
+  background-image: url("../public/sport_images/main_layout.png");
   background-position: center;
   background-size: 100% 100%;
   position: absolute;
